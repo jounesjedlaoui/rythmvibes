@@ -1,4 +1,4 @@
-RYTHMVIBES \n
+RYTHMVIBES: - 
 A music Visualizer build with react-three-fiber and Web Audio API.
 
 Allow the app access to your microfone and turn up the volume!
