@@ -19,11 +19,11 @@ export default function Sphere(props) {
         posX: props.position[0],
         posY: props.position[1],
         posZ: props.position[2],
-        rotX: 0,
+        rotX: props.rotX,
         activeRot: true,
-        rotY: 0,
+        rotY: props.rotY,
         
-        rotZ: 0
+        rotZ: props.rotZ
 
     })
 
@@ -46,7 +46,7 @@ export default function Sphere(props) {
         borderRadius: '0.5em'
     }
 
-    const controllerInterface = <Html style={style} position={[15, 40, -50]} rotationY={0.2}>
+    const controllerInterface = <Html style={style} position={[50, 40, -50]} rotationY={0.2}>
                                     <div>
                                         <form>
 

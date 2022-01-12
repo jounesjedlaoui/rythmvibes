@@ -74,7 +74,7 @@ export default function AudioAnalyser() {
 
   useFrame(() => {
     var array = new Uint8Array(analyser.frequencyBinCount)
-    console.log(analyser)
+    //console.log(analyser)
   })
 
   return (

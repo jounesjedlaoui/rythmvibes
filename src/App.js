@@ -23,8 +23,9 @@ function App() {
         <pointLight position={[10, 10, 10]} />
 
             
-        <Sphere position={[0, 0, -10]} color={'#0000fa'} size={50} />                              
-        <Sphere position={[2, -2, -10]} color={'#f30000'} size={50} heightSegments={20} widthSegments={20}/>                              
+        <Sphere position={[-8.8, 10, -9]} color={'#0000fa'} size={100} heightSegments={1} rotX={-28} rotY={-12} rotZ={-10}/>                              
+        <Sphere position={[6, -2, -10]} color={'#f30000'} size={50} heightSegments={20} widthSegments={2} rotX={8} rotY={10} rotZ={-10}/>                              
+        <Sphere position={[-2.8, -10, -1]} color={"#a3bd47"} size={99} heightSegments={20} widthSegments={2} rotX={-2} rotY={-1} rotZ={2}/>                              
 
         <AudioAnalyser />     
       </Canvas>               
