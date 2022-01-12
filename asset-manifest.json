@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.js": "/my-app/static/js/main.a15e42c9.chunk.js",
-    "main.js.map": "/my-app/static/js/main.a15e42c9.chunk.js.map",
-    "runtime-main.js": "/my-app/static/js/runtime-main.41396e4f.js",
-    "runtime-main.js.map": "/my-app/static/js/runtime-main.41396e4f.js.map",
-    "static/js/2.7d48fbf3.chunk.js": "/my-app/static/js/2.7d48fbf3.chunk.js",
-    "static/js/2.7d48fbf3.chunk.js.map": "/my-app/static/js/2.7d48fbf3.chunk.js.map",
-    "static/js/3.f02e8b4e.chunk.js": "/my-app/static/js/3.f02e8b4e.chunk.js",
-    "static/js/3.f02e8b4e.chunk.js.map": "/my-app/static/js/3.f02e8b4e.chunk.js.map",
-    "index.html": "/my-app/index.html",
-    "static/js/2.7d48fbf3.chunk.js.LICENSE.txt": "/my-app/static/js/2.7d48fbf3.chunk.js.LICENSE.txt"
+    "main.js": "/rythmvibes/static/js/main.a15e42c9.chunk.js",
+    "main.js.map": "/rythmvibes/static/js/main.a15e42c9.chunk.js.map",
+    "runtime-main.js": "/rythmvibes/static/js/runtime-main.a2b8efb2.js",
+    "runtime-main.js.map": "/rythmvibes/static/js/runtime-main.a2b8efb2.js.map",
+    "static/js/2.7d48fbf3.chunk.js": "/rythmvibes/static/js/2.7d48fbf3.chunk.js",
+    "static/js/2.7d48fbf3.chunk.js.map": "/rythmvibes/static/js/2.7d48fbf3.chunk.js.map",
+    "static/js/3.f02e8b4e.chunk.js": "/rythmvibes/static/js/3.f02e8b4e.chunk.js",
+    "static/js/3.f02e8b4e.chunk.js.map": "/rythmvibes/static/js/3.f02e8b4e.chunk.js.map",
+    "index.html": "/rythmvibes/index.html",
+    "static/js/2.7d48fbf3.chunk.js.LICENSE.txt": "/rythmvibes/static/js/2.7d48fbf3.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.41396e4f.js",
+    "static/js/runtime-main.a2b8efb2.js",
     "static/js/2.7d48fbf3.chunk.js",
     "static/js/main.a15e42c9.chunk.js"
   ]
