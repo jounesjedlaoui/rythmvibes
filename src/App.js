@@ -28,7 +28,7 @@ function App() {
         <Sphere position={[-2.8, -10, -1]} color={"#a3bd47"} size={99} heightSegments={20} widthSegments={2} rotX={-2} rotY={-1} rotZ={2}/>                              
 
         <AudioAnalyser />     
-      </Canvas>               
+      </Canvas>              
     </div>
 
   );
