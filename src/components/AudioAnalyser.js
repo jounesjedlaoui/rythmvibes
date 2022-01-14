@@ -1,7 +1,7 @@
 import { useFrame } from '@react-three/fiber';
 import React, { useState } from 'react';
 import { Html } from '@react-three/drei/web/Html.cjs'
-import { useStore } from '../index';
+import { useStore } from '../state';
 
 const style = {
   padding: '1em',
@@ -19,6 +19,7 @@ export default function AudioAnalyser() {
   const [ allDevices, setAllDevices ] = useState([]);
   const [ init, switchInit ] = useState(false)
   let [ selectedInput, changeInput ] = useState({id: 'default', label: '', kind: 'audioinput'});
+  const [amp, updateMicAmp] = useStore(state => [ state.micAmp, state.updateMicAmp ])
 
   var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   var analyser = audioCtx.createAnalyser();
@@ -32,14 +33,34 @@ export default function AudioAnalyser() {
   }
 
   //get Permission to read System inputs and outputs
-  navigator.mediaDevices.getUserMedia({audio: true, video: false})
+  navigator.mediaDevices.getUserMedia({
+    audio: true,
+    video: true
+  })
     .then(function(stream) {
-      window.stream = stream
-      source = audioCtx.createMediaStreamSource(stream)
-      source.connect(analyser)
-      console.log('hey')
+      const audioContext = new AudioContext();
+      const analyser = audioContext.createAnalyser();
+      const microphone = audioContext.createMediaStreamSource(stream);
+      const scriptProcessor = audioContext.createScriptProcessor(2048, 1, 1);
+  
+      analyser.smoothingTimeConstant = 0.8;
+      analyser.fftSize = 1024;
+  
+      microphone.connect(analyser);
+      analyser.connect(scriptProcessor);
+      scriptProcessor.connect(audioContext.destination);
+      scriptProcessor.onaudioprocess = function() {
+        const array = new Uint8Array(analyser.frequencyBinCount);
+        analyser.getByteFrequencyData(array);
+        const arraySum = array.reduce((a, value) => a + value, 0);
+        const average = arraySum / array.length;
+        updateMicAmp(average)
+      };
     })
-
+    .catch(function(err) {
+      /* handle the error */
+      console.error(err);
+    });
   //case privacy doesnt allow access
   if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
     console.log("enumerateDevices() not supported.");
@@ -69,26 +90,20 @@ export default function AudioAnalyser() {
     });
     switchInit(true)
   }
-  console.log(allDevices.length)
-  console.log(allDevices[0])
-
-  useFrame(() => {
-    var array = new Uint8Array(analyser.frequencyBinCount)
-    //console.log(analyser)
-  })
 
   return (
     <React.Fragment >
-            <Html position={[-6, 6,-3]} rotationY={0.2}>
-                  <form style={style}>
-                    <label htmlfor='type'>Audio-Quelle</label>
-                    <select name='type' style={selectStyle} >
-                      {allDevices.map(device => 
-                        <option value={device.deviceId}>{device.label}</option>
-                      )}
-                    </select>
-                  </form>
-            </Html>   
+           
     </React.Fragment>
   )  
 }
+{/* <Html position={[-6, 6,-3]} rotationY={0.2}>
+<form style={style}>
+  <label htmlfor='type'>Audio-Quelle</label>
+  <select name='type' style={selectStyle} >
+    {allDevices.map(device => 
+      <option value={device.deviceId}>{device.label}</option>
+    )}
+  </select>
+</form>
+</Html>    */}

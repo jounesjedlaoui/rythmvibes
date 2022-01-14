@@ -1,19 +1,16 @@
 import { useFrame } from '@react-three/fiber'
-import React, { useState } from 'react'
-import { useStore } from '../state'
 import * as THREE from 'three'
+import React, { useState } from 'react'
 import { MeshWobbleMaterial } from '@react-three/drei'
-
+import { useStore } from '../state'
 import shallow from 'zustand/shallow'
 import { Html } from '@react-three/drei/web/Html.cjs'
 
-export default function Sphere(props) {
+export default function Plane(props) {
     const mesh = React.useRef();
     const [ active, toggleActive ] = useState(false)
+    const [ wireframe, toggleWireframe ] = useState(false)
     const [ amp ] = useStore(state => [ state.micAmp ])
-    let audioFactors = {
-        amp: 1,
-    }
 
     let [ cI, setCI ] = useState({
         size: props.size,
@@ -42,6 +39,10 @@ export default function Sphere(props) {
         toggleActive(!active)
     }
 
+    const handleWireframe = () => {
+        toggleWireframe(!wireframe)
+    }
+
     const style = {
         backgroundColor: 'grey',
         padding: '0.6em',
@@ -49,7 +50,7 @@ export default function Sphere(props) {
         borderRadius: '0.5em'
     }
 
-    const controllerInterface = <Html style={style} position={[cI.posX-10, cI.posY+2, -50]} rotationY={0.2}>
+    const controllerInterface = <Html style={style} position={[50, 40, -50]} rotationY={0.2}>
                                     <div>
                                         <form>
 
@@ -58,15 +59,19 @@ export default function Sphere(props) {
                                             <input type='color' name='color' value={cI.color} onChange={handleChange}/>
 
                                             <br/>
+                                            
+                                            <label htmlfor='size'>Wireframe On</label>
+                                            <input type='checkbox' onChange={handleWireframe}/>
+   
 
                                             <label htmlfor='size'>Größe</label>
                                             <input type='range' name='size' value={cI.size} onChange={handleChange}/>
 
                                             <label htmlfor='heightSegments'>heightSegments</label>
-                                            <input type='range' min={1} max={20} name='heightSegments' value={cI.heightSegments} onChange={handleChange}/>
+                                            <input type='range' min={1} max={200} name='heightSegments' value={cI.heightSegments} onChange={handleChange}/>
 
                                             <label htmlfor='widthSegments'>widthSegments</label>
-                                            <input type='range' min={1} max={20} name='widthSegments' value={cI.widthSegments} onChange={handleChange}/> 
+                                            <input type='range' min={1} max={200} name='widthSegments' value={cI.widthSegments} onChange={handleChange}/> 
 
                                             <br/>
 
@@ -80,27 +85,14 @@ export default function Sphere(props) {
                                             <br/>
 
                                             <label htmlfor='rotX'>Rotation X</label>
-                                            <input type='range' min={-100} max={100} name='rotX' value={cI.rotX} onChange={handleChange}/>
+                                            <input type='range' min={-360} max={360} name='rotX' value={cI.rotX} onChange={handleChange}/>
                                             <label htmlfor='rotY'>Rotation Y</label>
-                                            <input type='range' min={-100} max={100} name='rotY' value={cI.rotY} onChange={handleChange}/>
+                                            <input type='range' min={-360} max={360} name='rotY' value={cI.rotY} onChange={handleChange}/>
                                             <label htmlfor='rotZ'>Rotation Z</label>
-                                            <input type='range' min={-100} max={100} name='rotZ' value={cI.rotZ} onChange={handleChange}/>
+                                            <input type='range' min={-360} max={360} name='rotZ' value={cI.rotZ} onChange={handleChange}/>
                                         </form>
                                     </div>
                                 </Html>
-
-    useFrame(() => {
-        
-
-        if(cI.activeRot) {
-
-            var ampRot = amp/30;
-            mesh.current.rotation.x += (cI.rotX/1000) * ampRot;
-            mesh.current.rotation.y += (cI.rotY/1000) * ampRot;
-            mesh.current.rotation.z += (cI.rotZ/1000) * ampRot;
-        }
-    })
-
 
 
     return(
@@ -111,23 +103,25 @@ export default function Sphere(props) {
         <mesh
             position={[cI.posX, cI.posY, cI.posZ]}
             ref={mesh}
-            scale={cI.size/10+amp/40}
+            scale={cI.size/10}
             onClick={handleClick}
-            
+            rotation={[cI.rotX/100, cI.rotY/100, cI.rotZ/100]}
             >
             
-            <sphereGeometry args={[1, cI.heightSegments+amp*20, cI.widthSegments]} />
-            
+            <planeGeometry 
+                args={[1000, 1000, cI.heightSegments, cI.widthSegments]} 
+                />
             <MeshWobbleMaterial 
                 attact='material'
                 color={cI.color}
                 side={THREE.DoubleSide}
-                factor={1*(amp)}
-                speed={0.1*(0.01/amp)}
+                factor={0.41}
+                speed={1}
                 refractionRatio={3}
                 roughness={0.2}
-                wireframe={false}
+                wireframe={wireframe}
                 />
+
           </mesh>
           </React.Fragment >
 
