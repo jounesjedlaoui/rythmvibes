@@ -43,8 +43,8 @@ export default function AudioAnalyser() {
       const microphone = audioContext.createMediaStreamSource(stream);
       const scriptProcessor = audioContext.createScriptProcessor(2048, 1, 1);
   
-      analyser.smoothingTimeConstant = 0.8;
-      analyser.fftSize = 1024;
+      analyser.smoothingTimeConstant = 0.9;
+      analyser.fftSize = 128;
   
       microphone.connect(analyser);
       analyser.connect(scriptProcessor);
@@ -67,30 +67,7 @@ export default function AudioAnalyser() {
    
   }
   
-  //get all available devices
-  if(!init) {
-    navigator.mediaDevices.enumerateDevices()
-    .then(function(devices) {
-      let i = 0;
-        devices.forEach(function(device) {
-          let dev = {
-          kind: device.kind,
-          label: device.label,
-          id: device.deviceId,
-          groupId: device.groupId
-        }
-        allDevices.push(dev)
-        setAllDevices([...allDevices, dev])
-        i++;
-        //console.log(allDevices)
-      });
-    })
-    .catch(function(err) {
-      console.log(err.name + ": " + err.message);
-    });
-    switchInit(true)
-  }
-
+  
   return (
     <React.Fragment >
            

@@ -1,4 +1,3 @@
-import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import React, { useState } from 'react'
 import { MeshWobbleMaterial } from '@react-three/drei'
@@ -6,12 +5,29 @@ import { useStore } from '../state'
 import shallow from 'zustand/shallow'
 import { Html } from '@react-three/drei/web/Html.cjs'
 
+/**
+ * A Plane Three.js Object, whose parameters are influences by the audio-input from the clients microphone
+ * @param {object} param: The paramateters with which the 3d-Object is created. It includes:
+ *  position: as an Array(3),
+ *  color: as a HEX-value,
+ *  size: as an Integer,
+ *  heightSegments: the amount of heightSegments of the 3d-Object
+ *  widthSegments: the amount of widthSegments of the 3d-Object
+ *  rotX: the amount of static rotation on the x-axis
+ *  rotY: the amount of static rotation on the y-axis
+ *  rotZ: the amount of static rotation on the z-axis  
+ * @return The react-three-fiber Plane-Component
+**/ 
 export default function Plane(props) {
     const mesh = React.useRef();
+    //Visibility of ControllerInterface
     const [ active, toggleActive ] = useState(false)
+    //Visibility of wireframe
     const [ wireframe, toggleWireframe ] = useState(false)
+    //Amplitude of microphone input connected to global store
     const [ amp ] = useStore(state => [ state.micAmp ])
 
+    //locally stored controller variables
     let [ cI, setCI ] = useState({
         size: props.size,
         color: props.color,
@@ -21,11 +37,8 @@ export default function Plane(props) {
         posY: props.position[1],
         posZ: props.position[2],
         rotX: props.rotX,
-        activeRot: true,
         rotY: props.rotY,
-        
         rotZ: props.rotZ
-
     })
 
     const handleChange = (event) => {
@@ -60,12 +73,12 @@ export default function Plane(props) {
 
                                             <br/>
                                             
-                                            <label htmlfor='size'>Wireframe On</label>
+                                            <label htmlfor='wireframe'>Wireframe On</label>
                                             <input type='checkbox' onChange={handleWireframe}/>
    
 
                                             <label htmlfor='size'>Größe</label>
-                                            <input type='range' name='size' value={cI.size} onChange={handleChange}/>
+                                            <input type='range' name='size' min={-10} max={10}value={cI.size} onChange={handleChange}/>
 
                                             <label htmlfor='heightSegments'>heightSegments</label>
                                             <input type='range' min={1} max={200} name='heightSegments' value={cI.heightSegments} onChange={handleChange}/>
@@ -78,7 +91,7 @@ export default function Plane(props) {
                                             <label htmlfor='X'>X</label>
                                             <input type='range' min={-8.8} max={8.8} name='posX' value={cI.posX} onChange={handleChange}/>
                                             <label htmlfor='Y'>Y</label>
-                                            <input type='range' min={-10} max={10} name='posY' value={cI.posY} onChange={handleChange}/>
+                                            <input type='range' min={-20} max={10} name='posY' value={cI.posY} onChange={handleChange}/>
                                             <label htmlfor='Z'>Z</label>
                                             <input type='range' min={-10} max={10} name='posZ' value={cI.posZ} onChange={handleChange}/>
 

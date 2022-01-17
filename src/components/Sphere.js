@@ -4,17 +4,29 @@ import { useStore } from '../state'
 import * as THREE from 'three'
 import { MeshWobbleMaterial } from '@react-three/drei'
 
-import shallow from 'zustand/shallow'
 import { Html } from '@react-three/drei/web/Html.cjs'
 
+/**
+ * A Sphere Three.js Object, whose parameters are influences by the audio-input from the clients microphone
+ * @param {object} param: The paramateters with which the 3d-Object is created. It includes:
+ *  position: as an Array(3),
+ *  color: as a HEX-value,
+ *  size: as an Integer,
+ *  heightSegments: the amount of heightSegments of the 3d-Object
+ *  widthSegments: the amount of widthSegments of the 3d-Object
+ *  rotX: the amount of static rotation on the x-axis
+ *  rotY: the amount of static rotation on the y-axis
+ *  rotZ: the amount of static rotation on the z-axis  
+ * @return The react-three-fiber Sphere-Component
+**/ 
 export default function Sphere(props) {
     const mesh = React.useRef();
+    //Visibility of ControllerInterface
     const [ active, toggleActive ] = useState(false)
+    //Amplitude of microphone input connected to global store
     const [ amp ] = useStore(state => [ state.micAmp ])
-    let audioFactors = {
-        amp: 1,
-    }
 
+    //locally stored controller variables
     let [ cI, setCI ] = useState({
         size: props.size,
         color: props.color,
@@ -24,13 +36,11 @@ export default function Sphere(props) {
         posY: props.position[1],
         posZ: props.position[2],
         rotX: props.rotX,
-        activeRot: true,
         rotY: props.rotY,
-        
         rotZ: props.rotZ
-
     })
 
+    //update values in controllerInput
     const handleChange = (event) => {
         const { value, name } = event.target;
         let newCI = {...cI}
@@ -89,16 +99,12 @@ export default function Sphere(props) {
                                     </div>
                                 </Html>
 
+    //apply rotation on every frame
     useFrame(() => {
-        
-
-        if(cI.activeRot) {
-
-            var ampRot = amp/30;
+            var ampRot = amp/50;
             mesh.current.rotation.x += (cI.rotX/1000) * ampRot;
             mesh.current.rotation.y += (cI.rotY/1000) * ampRot;
             mesh.current.rotation.z += (cI.rotZ/1000) * ampRot;
-        }
     })
 
 
@@ -116,14 +122,14 @@ export default function Sphere(props) {
             
             >
             
-            <sphereGeometry args={[1, cI.heightSegments+amp*20, cI.widthSegments]} />
+            <sphereGeometry args={[1, cI.heightSegments+amp*20, cI.widthSegments*(amp/35)]} />
             
             <MeshWobbleMaterial 
                 attact='material'
                 color={cI.color}
                 side={THREE.DoubleSide}
                 factor={1*(amp)}
-                speed={0.1*(0.01/amp)}
+                speed={0.2*(0.01/amp)}
                 refractionRatio={3}
                 roughness={0.2}
                 wireframe={false}
