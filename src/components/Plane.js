@@ -41,14 +41,15 @@ export default function Plane(props) {
         rotZ: props.rotZ
     })
 
-    const handleChange = (event) => {
+    const handleChange = ( event ) => {
         const { value, name } = event.target;
         let newCI = {...cI}
         newCI[name] = value;
         setCI(newCI)
     }
 
-    const handleClick = () => {
+    const handleClick = ( event ) => {
+        event.preventDefault();
         toggleActive(!active)
     }
 
@@ -66,6 +67,7 @@ export default function Plane(props) {
     const controllerInterface = <Html style={style} position={[50, 40, -50]} rotationY={0.2}>
                                     <div>
                                         <form>
+                                            <button onClick={handleClick}>hide</button>
 
                                             <label htmlfor='color'>Farbe</label>
                                             <br/>
@@ -117,7 +119,7 @@ export default function Plane(props) {
             position={[cI.posX, cI.posY, cI.posZ]}
             ref={mesh}
             scale={cI.size/10}
-            onClick={handleClick}
+            onClick={toggleActive}
             rotation={[cI.rotX/100, cI.rotY/100, cI.rotZ/100]}
             >
             

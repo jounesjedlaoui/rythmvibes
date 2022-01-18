@@ -11,7 +11,10 @@ const style = {
     font: 'Arial'
 }
 
-
+/**
+ * GeometryContainer
+ * @returns React.Component containing a html interface to manage the geometry
+ */
 export default function GeoContainer() {
     //An array containing all the geometries being rendered on screen
     const [ geometries, updateGeometry ] = useState([
@@ -75,6 +78,7 @@ export default function GeoContainer() {
         updateNewName(value)
     }
 
+    //Toggle Visibility of interface
     const handleToggle = () => {
         toggleVisibility(!visible);
     }

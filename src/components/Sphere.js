@@ -23,6 +23,8 @@ export default function Sphere(props) {
     const mesh = React.useRef();
     //Visibility of ControllerInterface
     const [ active, toggleActive ] = useState(false)
+    //Active Rotation
+    const [ activeRotation, toggleActiveRotation ] = useState(true)
     //Amplitude of microphone input connected to global store
     const [ amp ] = useStore(state => [ state.micAmp ])
 
@@ -40,6 +42,12 @@ export default function Sphere(props) {
         rotZ: props.rotZ
     })
 
+    //toggle activeRotation 
+    const handleActiveRotation = ( event ) => {
+        event.preventDefault();
+        toggleActiveRotation(!activeRotation)
+    }
+
     //update values in controllerInput
     const handleChange = (event) => {
         const { value, name } = event.target;
@@ -48,7 +56,8 @@ export default function Sphere(props) {
         setCI(newCI)
     }
 
-    const handleClick = () => {
+    const handleClick = ( event ) => {
+        event.preventDefault()
         toggleActive(!active)
     }
 
@@ -62,7 +71,7 @@ export default function Sphere(props) {
     const controllerInterface = <Html style={style} position={[cI.posX-10, cI.posY+2, -50]} rotationY={0.2}>
                                     <div>
                                         <form>
-
+                                            <button onClick={handleClick}>hide</button>
                                             <label htmlfor='color'>Farbe</label>
                                             <br/>
                                             <input type='color' name='color' value={cI.color} onChange={handleChange}/>
@@ -89,6 +98,7 @@ export default function Sphere(props) {
 
                                             <br/>
 
+                                            <button onClick={handleActiveRotation}>Toggle active rotation</button>
                                             <label htmlfor='rotX'>Rotation X</label>
                                             <input type='range' min={-100} max={100} name='rotX' value={cI.rotX} onChange={handleChange}/>
                                             <label htmlfor='rotY'>Rotation Y</label>
@@ -101,10 +111,12 @@ export default function Sphere(props) {
 
     //apply rotation on every frame
     useFrame(() => {
+        if(activeRotation) {
             var ampRot = amp/50;
             mesh.current.rotation.x += (cI.rotX/1000) * ampRot;
             mesh.current.rotation.y += (cI.rotY/1000) * ampRot;
             mesh.current.rotation.z += (cI.rotZ/1000) * ampRot;
+        }
     })
 
 
@@ -118,8 +130,8 @@ export default function Sphere(props) {
             position={[cI.posX, cI.posY, cI.posZ]}
             ref={mesh}
             scale={cI.size/10+amp/40}
-            onClick={handleClick}
-            
+            onClick={toggleActive}
+            rotation={[cI.rotX, cI.rotY, cI.rotZ]}
             >
             
             <sphereGeometry args={[1, cI.heightSegments+amp*20, cI.widthSegments*(amp/35)]} />
