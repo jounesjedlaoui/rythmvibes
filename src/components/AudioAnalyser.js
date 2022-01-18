@@ -1,7 +1,9 @@
 import { useFrame } from '@react-three/fiber';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Html } from '@react-three/drei/web/Html.cjs'
 import { useStore } from '../state';
+import MicrophoneStream from 'microphone-stream';
+
 
 const style = {
   padding: '1em',
@@ -15,25 +17,27 @@ const selectStyle = {
   width: '100%'
 }
 
-export default function AudioAnalyser() {
-  const [ allDevices, setAllDevices ] = useState([]);
-  const [ init, switchInit ] = useState(false)
-  let [ selectedInput, changeInput ] = useState({id: 'default', label: '', kind: 'audioinput'});
-  const [amp, updateMicAmp] = useStore(state => [ state.micAmp, state.updateMicAmp ])
+export default function AudioAnalyser(props) {
+  const [updateMicAmp] = useStore(state => [ state.updateMicAmp ])
+  const [ audioContext, setAudioContext ] = useState();
+  const [ analyser, setAnalyser ] = useState();
+  const [ dataArray, setDataArray ] = useState();
+  const [ source, setSource ] = useState();
 
-  var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  var analyser = audioCtx.createAnalyser();
-  analyser.fftsize = 512;
 
-  let source;
-  
-  const onChange = (event) => {
-    const value = event.target.value;
-    changeInput(value);
+
+
+
+
+  //case privacy doesnt allow access
+  if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+    console.log("enumerateDevices() not supported.");
+   
   }
-
-  //get Permission to read System inputs and outputs
-  navigator.mediaDevices.getUserMedia({
+  
+  useEffect(() => {
+    //get Permission to read System inputs and outputs and add eventlistener to process input stream
+    navigator.mediaDevices.getUserMedia({
     audio: true,
     video: true
   })
@@ -43,8 +47,8 @@ export default function AudioAnalyser() {
       const microphone = audioContext.createMediaStreamSource(stream);
       const scriptProcessor = audioContext.createScriptProcessor(2048, 1, 1);
   
-      analyser.smoothingTimeConstant = 0.9;
-      analyser.fftSize = 128;
+      analyser.smoothingTimeConstant = 0.8;
+      analyser.fftSize = 64;
   
       microphone.connect(analyser);
       analyser.connect(scriptProcessor);
@@ -61,13 +65,10 @@ export default function AudioAnalyser() {
       /* handle the error */
       console.error(err);
     });
-  //case privacy doesnt allow access
-  if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
-    console.log("enumerateDevices() not supported.");
-   
-  }
-  
-  
+  }, [])
+
+
+
   return (
     <React.Fragment >
            

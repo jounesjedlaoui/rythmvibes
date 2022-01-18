@@ -6,26 +6,48 @@ import Plane from './components/Plane';
 import GeoContainer from './components/GeoContainer';
 
 
-function App() {
- 
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      audio: null,
+      audioContext: null,
+      analyser: null
+    }
+    this.getMicrophone();
+  }
 
-  return (
-    <div style={{height: '1000px', margin: '-200px', height: '2000em', backgroundColor:'black'}} >
-      <Canvas   pixelRatio={window.devicePixelRatio}
-                invalidateFrameloop={false}
-                style={{ position: 'absolute', left: '0', top: '0', width: '100%', height: '100%' }}>
-        <ambientLight />
-        <fog attach="fog" args={["lightgrey", 5, 40]} />
+  async getMicrophone() {
+    const audio = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false
+    });
 
-        <pointLight position={[10, 10, 10]} />
+    console.log(audio)
+  
+    this.setState({ audio })
+  }
 
-         <GeoContainer />   
+  render() {
+    console.log(this.state)
+    return (
+      <div style={{height: '1000px', margin: '-200px', height: '2000em', backgroundColor:'black'}} >
+        <Canvas   pixelRatio={window.devicePixelRatio}
+                  invalidateFrameloop={false}
+                  style={{ position: 'absolute', left: '0', top: '0', width: '100%', height: '100%' }}>
+          <ambientLight />
+          <fog attach="fog" args={["lightgrey", 5, 40]} />
 
-        <AudioAnalyser />     
-      </Canvas>              
-    </div>
+          <pointLight position={[10, 10, 10]} />
 
-  );
+          <GeoContainer />   
+
+          {this.getMicrophone}
+          <AudioAnalyser audio={ this.state.audio } />     
+        </Canvas>              
+      </div>
+    )
+  }
 }
 
 {/* <Sphere position={[0, 0, -4]} color={'#ECB365'} size={10} heightSegments={2} widthSegments={10} rotX={-28} rotY={-12} rotZ={-10}/>                              

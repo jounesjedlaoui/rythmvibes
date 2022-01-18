@@ -26,7 +26,8 @@ export default function Plane(props) {
     const [ wireframe, toggleWireframe ] = useState(false)
     //Amplitude of microphone input connected to global store
     const [ amp ] = useStore(state => [ state.micAmp ])
-
+    //Mouse Position for positioning of controllerInterface
+    let [ mousePos, setMousePos ] = useState(new THREE.Vector3( 0, 0, -3 ));
     //locally stored controller variables
     let [ cI, setCI ] = useState({
         size: props.size,
@@ -48,13 +49,18 @@ export default function Plane(props) {
         setCI(newCI)
     }
 
-    const handleClick = ( event ) => {
-        event.preventDefault();
-        toggleActive(!active)
-    }
-
+    //Toggle wireframe visibility
     const handleWireframe = () => {
         toggleWireframe(!wireframe)
+    }
+
+    const getMouseWorld = ( event ) => {
+        setMousePos( event.point )
+    }
+
+    const handleToggle = ( event ) => {
+        getMouseWorld(event);
+        toggleActive(!active)
     }
 
     const style = {
@@ -64,10 +70,12 @@ export default function Plane(props) {
         borderRadius: '0.5em'
     }
 
-    const controllerInterface = <Html style={style} position={[50, 40, -50]} rotationY={0.2}>
+    const controllerInterface = <Html style={style} position={ [10.7, 1, -5] } rotationY={0.2}>
                                     <div>
                                         <form>
-                                            <button onClick={handleClick}>hide</button>
+                                            <h4>{props.name}</h4>
+
+                                            <br/>
 
                                             <label htmlfor='color'>Farbe</label>
                                             <br/>
@@ -119,7 +127,7 @@ export default function Plane(props) {
             position={[cI.posX, cI.posY, cI.posZ]}
             ref={mesh}
             scale={cI.size/10}
-            onClick={toggleActive}
+            onClick={handleToggle}
             rotation={[cI.rotX/100, cI.rotY/100, cI.rotZ/100]}
             >
             

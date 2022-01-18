@@ -27,7 +27,8 @@ export default function Sphere(props) {
     const [ activeRotation, toggleActiveRotation ] = useState(true)
     //Amplitude of microphone input connected to global store
     const [ amp ] = useStore(state => [ state.micAmp ])
-
+    //Mouse Position for positioning of controllerInterface
+    let [ mousePos, setMousePos ] = useState(new THREE.Vector3( 0, 0, -3 ));
     //locally stored controller variables
     let [ cI, setCI ] = useState({
         size: props.size,
@@ -56,8 +57,14 @@ export default function Sphere(props) {
         setCI(newCI)
     }
 
-    const handleClick = ( event ) => {
-        event.preventDefault()
+    const getMouseWorld = ( event ) => {
+        setMousePos( event.point )
+    }
+
+    const handleToggle = ( event ) => {
+        console.log(event)
+        getMouseWorld(event);
+
         toggleActive(!active)
     }
 
@@ -66,12 +73,14 @@ export default function Sphere(props) {
         padding: '0.6em',
         opacity: '0.7',
         borderRadius: '0.5em'
+        
     }
 
-    const controllerInterface = <Html style={style} position={[cI.posX-10, cI.posY+2, -50]} rotationY={0.2}>
+    const controllerInterface = <Html style={style} position={ [mousePos.x, mousePos.y, mousePos.z] } rotationY={0.2}>
                                     <div>
                                         <form>
-                                            <button onClick={handleClick}>hide</button>
+                                            <h4>{props.name}</h4>
+                                            <br/>
                                             <label htmlfor='color'>Farbe</label>
                                             <br/>
                                             <input type='color' name='color' value={cI.color} onChange={handleChange}/>
@@ -130,7 +139,7 @@ export default function Sphere(props) {
             position={[cI.posX, cI.posY, cI.posZ]}
             ref={mesh}
             scale={cI.size/10+amp/40}
-            onClick={toggleActive}
+            onClick={handleToggle}
             rotation={[cI.rotX, cI.rotY, cI.rotZ]}
             >
             
