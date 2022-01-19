@@ -33,6 +33,7 @@ export default function Sphere(props) {
     let [ cI, setCI ] = useState({
         size: props.size,
         color: props.color,
+        sensitivity: 1,
         heightSegments: props.heightSegments,
         widthSegments: props.widthSegments,
         posX: props.position[0],
@@ -89,6 +90,9 @@ export default function Sphere(props) {
 
                                             <label htmlfor='size'>Größe</label>
                                             <input type='range' name='size' value={cI.size} onChange={handleChange}/>
+
+                                            <label htmlfor='size'>Sensitivity</label>
+                                            <input type='range' min={0} max={10} name='sensitivity' value={cI.sensitivity} onChange={handleChange}/>
 
                                             <label htmlfor='heightSegments'>heightSegments</label>
                                             <input type='range' min={1} max={20} name='heightSegments' value={cI.heightSegments} onChange={handleChange}/>
@@ -149,7 +153,7 @@ export default function Sphere(props) {
                 attact='material'
                 color={cI.color}
                 side={THREE.DoubleSide}
-                factor={1*(amp)}
+                factor={1*(amp)*(cI.sensitivity/10)}
                 speed={0.2*(0.01/amp)}
                 refractionRatio={3}
                 roughness={0.2}

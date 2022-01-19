@@ -19,20 +19,10 @@ const selectStyle = {
 
 export default function AudioAnalyser(props) {
   const [updateMicAmp] = useStore(state => [ state.updateMicAmp ])
-  const [ audioContext, setAudioContext ] = useState();
-  const [ analyser, setAnalyser ] = useState();
-  const [ dataArray, setDataArray ] = useState();
-  const [ source, setSource ] = useState();
-
-
-
-
-
 
   //case privacy doesnt allow access
   if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
-    console.log("enumerateDevices() not supported.");
-   
+    console.log("enumerateDevices() not supported.");   
   }
   
   useEffect(() => {
