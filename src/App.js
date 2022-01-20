@@ -15,7 +15,6 @@ class App extends React.Component {
                   invalidateFrameloop={false}
                   style={{ position: 'absolute', left: '0', top: '0', width: '100%', height: '100%' }}>
           <ambientLight />
-          <fog attach="fog" args={["lightgrey", 5, 40]} />
 
           <pointLight position={[10, 10, 10]} />
 

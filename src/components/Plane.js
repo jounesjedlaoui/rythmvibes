@@ -36,7 +36,7 @@ export default function Plane(props) {
         factor: 0.41,
         heightSegments: props.heightSegments,
         widthSegments: props.widthSegments,
-        
+
         posX: props.position[0],
         posY: props.position[1],
         posZ: props.position[2],
@@ -124,7 +124,7 @@ export default function Plane(props) {
 
                                                 <div>
                                                     <label htmlfor='size'>Größe</label>
-                                                    <input type='range' name='size' min={-10} max={10} value={cI.size} onChange={handleChange}/>
+                                                    <input type='range' name='size' min={0} max={20} value={cI.size} onChange={handleChange}/>
 
                                                     <label htmlfor='factor'>wave factor</label>
                                                     <input type='range' min={0} max={100} name='factor' value={cI.factor} onChange={handleChange}/>
@@ -162,7 +162,7 @@ export default function Plane(props) {
         <mesh
             position={[cI.posX, cI.posY, cI.posZ]}
             ref={mesh}
-            scale={cI.size/10}
+            scale={cI.size* 0.001}
             onClick={handleToggle}
             rotation={[cI.rotX/100, cI.rotY/100, cI.rotZ/100]}
             >

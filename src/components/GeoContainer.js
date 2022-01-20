@@ -20,8 +20,11 @@ export default function GeoContainer() {
     //An array containing all the geometries being rendered on screen
     const [ geometries, updateGeometry ] = useState([
         <Sphere type={'Sphere'} name={'Sphere1'} position={[0, 0, -4]} color={'#ECB365'} size={10} heightSegments={2} widthSegments={10} rotX={-28} rotY={-12} rotZ={-10}/>,
-        <Plane type={'Plane'} name={'Background'} reacts={true} position={[-2.8, -10, -1]} color={"#041C32"} size={1} heightSegments={50} widthSegments={50} rotX={-65} rotY={-1} rotZ={2}/>                              
+        <Plane type={'Plane'} name={'Background'} reacts={true} position={[-2.8, -10, -1]} color={"#041C32"} size={100} heightSegments={50} widthSegments={50} rotX={-65} rotY={-1} rotZ={2}/>                              
     ])
+    
+    const [ fogColor, setFogColor ] = useState('darkgrey') 
+    const [ fogOn, setFogOn ] = useState(true) 
 
     //Name of new Geometry
     const [ newName, updateNewName ] = useState('');
@@ -53,7 +56,7 @@ export default function GeoContainer() {
             updateGeometry([...geometries])
             break;
         case 1:
-            newGeo = <Plane type={'Plane'} name={newName} position={[-2.8, 0, -1]} color={"red"} size={0.1} heightSegments={50} widthSegments={50} rotX={45} rotY={-1} rotZ={2}/>
+            newGeo = <Plane type={'Plane'} name={newName} position={[-2.8, 0, -1]} color={"red"} size={10} heightSegments={50} widthSegments={50} rotX={45} rotY={-1} rotZ={2}/>
             
             geometries.push(newGeo)
             updateGeometry([...geometries])
@@ -72,6 +75,15 @@ export default function GeoContainer() {
 
         updateGeometry([...geometries])
     }
+
+    const handleFogColor = (event) => {
+        setFogColor(event.target.value)
+    }
+
+    const handleFogOn = (event) => {
+        setFogOn(!fogOn)
+    }
+
 
     //Handle Change in input field, to differentiate between new geos in list
     const handleChange = ( event ) => {
@@ -93,6 +105,15 @@ export default function GeoContainer() {
                             <button class={'button__visible'} onClick={handleToggle}>x</button>
                             <img class={'icon__visible'}src={topfont}/>
                         </header>
+
+                        <section>
+                            <form>
+                                <label>Fog on</label>
+                                <input type='checkbox' checked onChange={handleFogOn}/>
+                                <label>FogColor</label>
+                                <input type='color' onChange={handleFogColor}/>
+                            </form>
+                        </section>
 
                         <section>
                             <form>
@@ -119,6 +140,8 @@ export default function GeoContainer() {
                 { visible ? Visible : inVisible } 
            
         </Html>
+        {fogOn ? <fog attach="fog" args={[fogColor, 5, 40]} /> : null }
+
         {geometries.map(geo => geo)}
         </React.Fragment>
     )
