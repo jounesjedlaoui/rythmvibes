@@ -29,7 +29,7 @@ export default function Sphere(props) {
     const [ amp ] = useStore(state => [ state.micAmp ])
     //Mouse Position for positioning of controllerInterface
     let [ mousePos, setMousePos ] = useState(new THREE.Vector3( 0, 0, -3 ));
-    //locally stored controller variables
+    //locally stored non-boolean controller variables
     let [ cI, setCI ] = useState({
         size: props.size,
         color: props.color,
@@ -58,14 +58,25 @@ export default function Sphere(props) {
         setCI(newCI)
     }
 
+    //update mousePosition in local state to position controllerInterface
     const getMouseWorld = ( event ) => {
-        setMousePos( event.point )
+        console.log(event.point)
+        var m = event.point;
+        if( m === undefined ) {
+            m = new THREE.Vector3( 0, 0, -3 )
+        }
+        else if(m.y < -0.7) {
+            m.y += 1.5;
+        }
+        setMousePos( m )
     }
 
+    //show controllerInterface and set mouse position
     const handleToggle = ( event ) => {
-        console.log(event)
+        if(event.target.tagName !== undefined)
+            if(event.target.tagName.toLowerCase() === 'button') 
+                event.preventDefault();
         getMouseWorld(event);
-
         toggleActive(!active)
     }
 
@@ -77,47 +88,60 @@ export default function Sphere(props) {
         
     }
 
-    const controllerInterface = <Html style={style} position={ [mousePos.x, mousePos.y, mousePos.z] } rotationY={0.2}>
-                                    <div>
+    const controllerInterface = <Html className={'geo-container'} position={ [mousePos.x, mousePos.y, mousePos.z] } rotationY={0.2}>
+                                    <div class={'hud-element'} style={style}>
                                         <form>
-                                            <h4>{props.name}</h4>
+                                            <header>
+                                                <button style={{marginBottom: '1em'}} class={'button__visible'} onClick={handleToggle}>x</button>
+                                                <div>
+                                                    <label class={'hudlabel'}>{props.name}</label>
+                                                </div>
+                                            </header>
                                             <br/>
+
+                                            <section>
                                             <label htmlfor='color'>Farbe</label>
+                                                <br/>
+                                                <input type='color' name='color' value={cI.color} onChange={handleChange}/>
                                             <br/>
-                                            <input type='color' name='color' value={cI.color} onChange={handleChange}/>
+                                            </section>
 
-                                            <br/>
+                                            <section >
+                                                <label>Position</label>
+                                                <br/>
+                                                <label htmlfor='X'>X</label>
+                                                <input type='range' min={-20} max={20} name='posX' value={cI.posX} onChange={handleChange}/>
+                                                <label htmlfor='Y'>Y</label>
+                                                <input type='range' min={-20} max={10} name='posY' value={cI.posY} onChange={handleChange}/>
+                                                <label htmlfor='Z'>Z</label>
+                                                <input type='range' min={-40} max={10} name='posZ' value={cI.posZ} onChange={handleChange}/>
 
-                                            <label htmlfor='size'>Größe</label>
-                                            <input type='range' name='size' value={cI.size} onChange={handleChange}/>
+                                                <br/>
+                                            </section>
 
-                                            <label htmlfor='size'>Sensitivity</label>
-                                            <input type='range' min={0} max={10} name='sensitivity' value={cI.sensitivity} onChange={handleChange}/>
+                                            <section>
+                                                <label htmlfor='size'>Size</label>
+                                                <input type='range' name='size' min={0} max={50} value={cI.size} onChange={handleChange}/>
 
-                                            <label htmlfor='heightSegments'>heightSegments</label>
-                                            <input type='range' min={1} max={20} name='heightSegments' value={cI.heightSegments} onChange={handleChange}/>
+                                                <label htmlfor='size'>Sensitivity</label>
+                                                <input type='range' min={0} max={10} name='sensitivity' value={cI.sensitivity} onChange={handleChange}/>
 
-                                            <label htmlfor='widthSegments'>widthSegments</label>
-                                            <input type='range' min={1} max={20} name='widthSegments' value={cI.widthSegments} onChange={handleChange}/> 
+                                                <label htmlfor='widthSegments'>widthSegments</label>
+                                                <input type='range' min={1} max={20} name='widthSegments' value={cI.widthSegments} onChange={handleChange}/> 
 
-                                            <br/>
+                                                <br/>
+                                            </section>
 
-                                            <label htmlfor='X'>X</label>
-                                            <input type='range' min={-8.8} max={8.8} name='posX' value={cI.posX} onChange={handleChange}/>
-                                            <label htmlfor='Y'>Y</label>
-                                            <input type='range' min={-10} max={10} name='posY' value={cI.posY} onChange={handleChange}/>
-                                            <label htmlfor='Z'>Z</label>
-                                            <input type='range' min={-10} max={10} name='posZ' value={cI.posZ} onChange={handleChange}/>
+                                            <section>
 
-                                            <br/>
-
-                                            <button onClick={handleActiveRotation}>Toggle active rotation</button>
                                             <label htmlfor='rotX'>Rotation X</label>
-                                            <input type='range' min={-100} max={100} name='rotX' value={cI.rotX} onChange={handleChange}/>
-                                            <label htmlfor='rotY'>Rotation Y</label>
-                                            <input type='range' min={-100} max={100} name='rotY' value={cI.rotY} onChange={handleChange}/>
-                                            <label htmlfor='rotZ'>Rotation Z</label>
-                                            <input type='range' min={-100} max={100} name='rotZ' value={cI.rotZ} onChange={handleChange}/>
+                                                <input type='range' min={-100} max={100} name='rotX' value={cI.rotX} onChange={handleChange}/>
+                                                <label htmlfor='rotY'>Rotation Y</label>
+                                                <input type='range' min={-100} max={100} name='rotY' value={cI.rotY} onChange={handleChange}/>
+                                                <label htmlfor='rotZ'>Rotation Z</label>
+                                                <input type='range' min={-100} max={100} name='rotZ' value={cI.rotZ} onChange={handleChange}/>
+                                                <button onClick={handleActiveRotation}>Toggle active rotation</button>
+                                            </section>
                                         </form>
                                     </div>
                                 </Html>
@@ -132,7 +156,7 @@ export default function Sphere(props) {
         }
     })
 
-
+    
 
     return(
         <React.Fragment>
@@ -142,7 +166,7 @@ export default function Sphere(props) {
         <mesh
             position={[cI.posX, cI.posY, cI.posZ]}
             ref={mesh}
-            scale={cI.size/10+amp/40}
+            scale={cI.sensitivity === 0 ? cI.size/10*10 : cI.size/10+amp/40}
             onClick={handleToggle}
             rotation={[cI.rotX, cI.rotY, cI.rotZ]}
             >

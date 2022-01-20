@@ -1,23 +1,8 @@
-import { useFrame } from '@react-three/fiber';
-import React, { useEffect, useState } from 'react';
-import { Html } from '@react-three/drei/web/Html.cjs'
+import React, { useEffect } from 'react';
 import { useStore } from '../state';
-import MicrophoneStream from 'microphone-stream';
 
 
-const style = {
-  padding: '1em',
-  width: '100%',
-  backgroundColor: 'gray',
-  borderRadius: '0.5em'
-}
-const selectStyle = {
-  padding: '0em 1em',
-  margin: '1em',
-  width: '100%'
-}
-
-export default function AudioAnalyser(props) {
+export default function AudioAnalyser() {
   const [updateMicAmp] = useStore(state => [ state.updateMicAmp ])
 
   //case privacy doesnt allow access
@@ -65,13 +50,3 @@ export default function AudioAnalyser(props) {
     </React.Fragment>
   )  
 }
-{/* <Html position={[-6, 6,-3]} rotationY={0.2}>
-<form style={style}>
-  <label htmlfor='type'>Audio-Quelle</label>
-  <select name='type' style={selectStyle} >
-    {allDevices.map(device => 
-      <option value={device.deviceId}>{device.label}</option>
-    )}
-  </select>
-</form>
-</Html>    */}

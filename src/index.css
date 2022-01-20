@@ -26,6 +26,98 @@ li {
 }
 
 h4 {
-  padding: 0em;
-  margin: -3em,
+  padding: none;
+  margin: none;
+  border: none;
+}
+
+.hud-element {
+  overflow-x: scroll;
+  flex-direction: column;
+  display: flex;
+  height: 40%;
+  width: 100%
+}
+
+section {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border: 0.31px solid whitesmoke;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.hudlabel {
+  font-size: larger;
+  font-weight: 500;
+}
+
+button {
+  text-decoration: none;
+  opacity: 0.8
+}
+
+.button__visible {
+  border-radius: 1em;
+  background-color: red;
+  margin-bottom: none;
+}
+
+.button__hidden {
+  opacity: 0.2;
+  border: none;
+  color: white
+}
+
+.icon__visible {
+  margin-top: 1em;
+  margin-bottom: none;
+  height: 1.5em
+}
+
+.geolist {
+  border: 0.31px solid whitesmoke;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+  padding-left: 0;
+  margin-left: -2.5em; 
+  display: inline-flex;
+}
+
+.geolist button {
+  margin-left: 1em
+}
+
+.geo-container {
+  height: 50em
+}
+
+.geo-container__plane {
+
+  width: 29em;
+  height: 20em;
+  overflow-x: scroll;
+}
+
+.geo-container__plane button {
+  margin-right: 1em
+}
+
+.geo-container__plane section {
+  display: flex;
+  flex-direction: row;
+}
+
+.geo-container__plane header {
+  display: flex;
+  flex-direction: row;
+}
+
+
+.geo-container__plane input {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1em;
 }

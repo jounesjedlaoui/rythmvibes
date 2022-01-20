@@ -2,11 +2,10 @@ import * as THREE from 'three'
 import React, { useState } from 'react'
 import { MeshWobbleMaterial } from '@react-three/drei'
 import { useStore } from '../state'
-import shallow from 'zustand/shallow'
 import { Html } from '@react-three/drei/web/Html.cjs'
 
 /**
- * A Plane Three.js Object, whose parameters are influences by the audio-input from the clients microphone
+ * A Plane Three.js Object, whose parameters are influenceD by the audio-input from the clients microphone
  * @param {object} param: The paramateters with which the 3d-Object is created. It includes:
  *  position: as an Array(3),
  *  color: as a HEX-value,
@@ -22,6 +21,8 @@ export default function Plane(props) {
     const mesh = React.useRef();
     //Visibility of ControllerInterface
     const [ active, toggleActive ] = useState(false)
+    //connect Wobble to amplitude
+    const [ wobble, toggleWobble ] = useState(props.reacts)
     //Visibility of wireframe
     const [ wireframe, toggleWireframe ] = useState(false)
     //Amplitude of microphone input connected to global store
@@ -32,8 +33,10 @@ export default function Plane(props) {
     let [ cI, setCI ] = useState({
         size: props.size,
         color: props.color,
+        factor: 0.41,
         heightSegments: props.heightSegments,
         widthSegments: props.widthSegments,
+        
         posX: props.position[0],
         posY: props.position[1],
         posZ: props.position[2],
@@ -54,11 +57,18 @@ export default function Plane(props) {
         toggleWireframe(!wireframe)
     }
 
+    const handleWobble = () => {
+        toggleWobble(!wobble)
+    }
+
     const getMouseWorld = ( event ) => {
         setMousePos( event.point )
     }
 
     const handleToggle = ( event ) => {
+        if(event.target.tagName !== undefined)
+            if(event.target.tagName.toLowerCase() === 'button') 
+                event.preventDefault();
         getMouseWorld(event);
         toggleActive(!active)
     }
@@ -70,49 +80,75 @@ export default function Plane(props) {
         borderRadius: '0.5em'
     }
 
-    const controllerInterface = <Html style={style} position={ [10.7, 1, -5] } rotationY={0.2}>
-                                    <div>
+    const controllerInterface = <Html className={'geo-container__plane'} style={style} position={ [-4, -3, -5] } rotationY={0.2}>
+                                    <div >
                                         <form>
-                                            <h4>{props.name}</h4>
-
+                                            <header>
+                                                <button style={{marginBottom: '1em'}} class={'button__visible'} onClick={handleToggle}>x</button>
+                                                <div>
+                                                    <label class={'hudlabel'}>{props.name}</label>
+                                                </div>
                                             <br/>
+                                            </header>
 
-                                            <label htmlfor='color'>Farbe</label>
-                                            <br/>
-                                            <input type='color' name='color' value={cI.color} onChange={handleChange}/>
+                                            <section>
+                                                <div>
+                                                    <label htmlfor='color'>Farbe</label>
+                                                    <br/>
+                                                    <input type='color' name='color' value={cI.color} onChange={handleChange}/>
+                                                    <br/>
+                                                </div>
+                                                <div>                                           
+                                                    <label htmlfor='wireframe'>Wireframe On</label>
+                                                    <input type='checkbox' onChange={handleWireframe}/>
+                                                </div>
+                                                <div>
+                                                    <label htmlfor='wireframe'>Reacts</label>
+                                                    <input type='checkbox' onChange={handleWobble}/>
+                                                </div>
+                                            </section>
 
-                                            <br/>
-                                            
-                                            <label htmlfor='wireframe'>Wireframe On</label>
-                                            <input type='checkbox' onChange={handleWireframe}/>
-   
+                                            <section >
+                                                
+                                                <div>
+                                                <label htmlfor={'X'}>Position</label>
+                                                <br/>                                               
+                                                <label htmlfor='X'>X</label>
+                                                <input type='range' min={-8.8} max={8.8} name='posX' value={cI.posX} onChange={handleChange}/>
+                                                <label htmlfor='Y'>Y</label>
+                                                <input type='range' min={-20} max={10} name='posY' value={cI.posY} onChange={handleChange}/>
+                                                <label htmlfor='Z'>Z</label>
+                                                <input type='range' min={-40} max={10} name='posZ' value={cI.posZ} onChange={handleChange}/>
+                                                </div>
+                                                <br/>
 
-                                            <label htmlfor='size'>Größe</label>
-                                            <input type='range' name='size' min={-10} max={10}value={cI.size} onChange={handleChange}/>
+                                                <div>
+                                                    <label htmlfor='size'>Größe</label>
+                                                    <input type='range' name='size' min={-10} max={10} value={cI.size} onChange={handleChange}/>
 
-                                            <label htmlfor='heightSegments'>heightSegments</label>
-                                            <input type='range' min={1} max={200} name='heightSegments' value={cI.heightSegments} onChange={handleChange}/>
+                                                    <label htmlfor='factor'>wave factor</label>
+                                                    <input type='range' min={0} max={100} name='factor' value={cI.factor} onChange={handleChange}/>
 
-                                            <label htmlfor='widthSegments'>widthSegments</label>
-                                            <input type='range' min={1} max={200} name='widthSegments' value={cI.widthSegments} onChange={handleChange}/> 
+                                                    <label htmlfor='heightSegments'>heightSegments</label>
+                                                    <input type='range' min={1} max={200} name='heightSegments' value={cI.heightSegments} onChange={handleChange}/>
 
-                                            <br/>
+                                                    <label htmlfor='widthSegments'>widthSegments</label>
+                                                    <input type='range' min={1} max={200} name='widthSegments' value={cI.widthSegments} onChange={handleChange}/> 
 
-                                            <label htmlfor='X'>X</label>
-                                            <input type='range' min={-8.8} max={8.8} name='posX' value={cI.posX} onChange={handleChange}/>
-                                            <label htmlfor='Y'>Y</label>
-                                            <input type='range' min={-20} max={10} name='posY' value={cI.posY} onChange={handleChange}/>
-                                            <label htmlfor='Z'>Z</label>
-                                            <input type='range' min={-10} max={10} name='posZ' value={cI.posZ} onChange={handleChange}/>
+                                                    <br/>
+                                                </div>
 
-                                            <br/>
+                                                <div>
+                                                    <label htmlfor='rotX'>Rotation X</label>
+                                                    <input type='range' min={-360} max={360} name='rotX' value={cI.rotX} onChange={handleChange}/>
+                                                    <label htmlfor='rotY'>Rotation Y</label>
+                                                    <input type='range' min={-360} max={360} name='rotY' value={cI.rotY} onChange={handleChange}/>
+                                                    <label htmlfor='rotZ'>Rotation Z</label>
+                                                    <input type='range' min={-360} max={360} name='rotZ' value={cI.rotZ} onChange={handleChange}/>
+                                                </div> 
+                                            </section>
 
-                                            <label htmlfor='rotX'>Rotation X</label>
-                                            <input type='range' min={-360} max={360} name='rotX' value={cI.rotX} onChange={handleChange}/>
-                                            <label htmlfor='rotY'>Rotation Y</label>
-                                            <input type='range' min={-360} max={360} name='rotY' value={cI.rotY} onChange={handleChange}/>
-                                            <label htmlfor='rotZ'>Rotation Z</label>
-                                            <input type='range' min={-360} max={360} name='rotZ' value={cI.rotZ} onChange={handleChange}/>
+
                                         </form>
                                     </div>
                                 </Html>
@@ -138,7 +174,7 @@ export default function Plane(props) {
                 attact='material'
                 color={cI.color}
                 side={THREE.DoubleSide}
-                factor={0.41}
+                factor={wobble ? (cI.factor/10) + amp/180 : cI.factor/100}
                 speed={1}
                 refractionRatio={3}
                 roughness={0.2}
