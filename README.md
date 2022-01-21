@@ -27,7 +27,10 @@ ________________________________________________________________________________
 ## DEVOPS PROZESSE
 
 ### Plan:
-
+  - Der Planungsteil wurde in Clickup umgesetzt.
+    https://app.clickup.com/24367494/v/b/s/42433245
+  - Es wurden einzelne Tasks erstellt und nach Status gelabled.
+ 
 ### Code:
   - react-three-fiber wird genutzt um three.js-Objekte als React-Componenten mit State zu rendern.
   - Web-Audio-API greift auf das Mikrofoninput zu und liest die Amplitude mithilfe von AudioNodes aus.
@@ -51,7 +54,9 @@ ________________________________________________________________________________
   - Deploy über:
     ### `npm run deploy`
 ### Operate:
+  - Nicht behandelt
 ### Monitor:
+  - Das Feedback wurde ebenfals in clickup mittels Tasts umgesetzt.
 
 
 ## Sources:
