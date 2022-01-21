@@ -55,7 +55,7 @@ ________________________________________________________________________________
     ### `npm run deploy`
 ### Operate:
   - Nicht behandelt
-### Monitor:
+### Feedback:
   - Das Feedback wurde ebenfals in clickup mittels Tasts umgesetzt.
 
 
