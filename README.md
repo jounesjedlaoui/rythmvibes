@@ -1,10 +1,6 @@
 # RYTHMVIBES ~
-A music Visualizer build with react-three-fiber and Web Audio API.
-
-Allow the app access to your microfone and turn up the volume!
-Productive: https://jefrey776.github.io/rythmvibes/
-
-*This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).*
+Productive: https://jefrey776.github.io/rythmvibes/ \
+Repository: https://github.com/Jefrey776/rythmvibes/
 _________________________________________________________________________________________________________
 
 ## Available Scripts
@@ -29,9 +25,11 @@ ________________________________________________________________________________
 ### Plan:
   - Der Planungsteil wurde in Clickup umgesetzt.
     https://app.clickup.com/24367494/v/b/s/42433245
-  - Es wurden einzelne Tasks erstellt und nach Status gelabled.
+  - Es wurden einzelne Tasks erstellt zugeteilt und nach Status gelabled.
+  - Durch die git-Integration wird ein neuer Branch für eine Task erstellt.
  
 ### Code:
+  #### Architektur:
   - react-three-fiber wird genutzt um three.js-Objekte als React-Componenten mit State zu rendern.
   - Web-Audio-API greift auf das Mikrofoninput zu und liest die Amplitude mithilfe von AudioNodes aus.
   - zustand informiert die Geometrieobjekte über Amplitudenwert.
@@ -40,23 +38,36 @@ ________________________________________________________________________________
   - Jedes Geometrieobjekt hat seinen eigenen State und rendert ein THREE.Mesh mit einer THREE.Geometry und einem THREE.Material.
   - Die Parameter werden von der Mikrofonamplitude beeinflusst und können mit einem controllerInterface manipuliert werden.
 
+  #### Prozess:
+  1. Den Remote-Branch auschecken ( Ich nutze GitHub Desktop )
+  2. Task umsetzen
+  3. Commit mit Beschreibung
+  
 ### Build: 
-  - Productionbuild wird mit npm erstellt.
+   - Der Productionbuild wird mit 
+   ### `npm predeploy`
+   erstellt und kann mit 
+   ### `npm start`
+   lokal gehostet und getestet werden.
+   
 ### Test:
-  - der Productionbuild wird mit 
-    ### `npm predeploy`
-    erstellt und kann mit 
-    ### `npm start`
-    lokal gehostet und getestet.
+  - Keine automatischen Tests.
+  - Funktion wird lokal getestet.
+
 ### Release
   - Nicht behandelt
+  
 ### Deploy:
   - Deploy über:
     ### `npm run deploy`
+  - Wird über github-pages gehostet.
+  
 ### Operate:
   - Nicht behandelt
+  
 ### Feedback:
-  - Das Feedback wurde ebenfals in clickup mittels Tasts umgesetzt.
+  - Feedback wird in Task eingetragen.
+  - Beim nächsten Treffen/Discord-Meeting wird der aktuelle Stand und der nächste Schritt besprochen und geplant.
 
 
 ## Sources:
@@ -64,3 +75,9 @@ react-three-fiber: https://docs.pmnd.rs/react-three-fiber/ \
 zustand: https://github.com/pmndrs/zustand \
 Web-Audio-API: https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API \
 githubpages: https://docs.github.com/en/pages \
+three.js: https://threejs.org/docs/ \
+react: https://reactjs.org/docs/getting-started.html \
+
+Set-Up für Audiostream: https://stackoverflow.com/questions/33322681/checking-microphone-volume-in-javascript/64650826 by Morphasis
+
+*This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).*
