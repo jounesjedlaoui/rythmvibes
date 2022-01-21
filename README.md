@@ -83,3 +83,5 @@ react: https://reactjs.org/docs/getting-started.html \
 Set-Up für Audiostream: https://stackoverflow.com/questions/33322681/checking-microphone-volume-in-javascript/64650826 by Morphasis
 
 *This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).*
+
+- Jounes Jedlaoui, Lilian Alice Drabinski, Mariam Barghout
