@@ -1,4 +1,6 @@
 # RYTHMVIBES ~
+<img width="40%" alt="Bildschirmfoto 2022-01-21 um 23 00 36" src="https://user-images.githubusercontent.com/28010466/150606039-114169c0-8659-4d12-939e-e1f87343a1c6.png"> 
+
 Productive: https://jefrey776.github.io/rythmvibes/ \
 Repository: https://github.com/Jefrey776/rythmvibes/
 _________________________________________________________________________________________________________
