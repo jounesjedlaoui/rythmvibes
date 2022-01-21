@@ -45,6 +45,10 @@ export default function Plane(props) {
         rotZ: props.rotZ
     })
 
+    /**
+     * @description Handle change in controllerInterface
+     * @param {event} event 
+     */
     const handleChange = ( event ) => {
         const { value, name } = event.target;
         let newCI = {...cI}
@@ -52,19 +56,35 @@ export default function Plane(props) {
         setCI(newCI)
     }
 
-    //Toggle wireframe visibility
+    /**
+     * @description Toggle wireframe visibility
+     * 
+     */
     const handleWireframe = () => {
         toggleWireframe(!wireframe)
     }
 
+    /**
+     * @description Toggle wobble-material
+     * 
+     */
     const handleWobble = () => {
         toggleWobble(!wobble)
     }
 
+    /**
+     * @description Get and set mouse position on click 
+     * @param {event} event 
+     * 
+     */
     const getMouseWorld = ( event ) => {
         setMousePos( event.point )
     }
 
+    /**
+     * @description Toggle controllerInterface visibility
+     * @param {event} event
+     */
     const handleToggle = ( event ) => {
         if(event.target.tagName !== undefined)
             if(event.target.tagName.toLowerCase() === 'button') 
@@ -73,37 +93,34 @@ export default function Plane(props) {
         toggleActive(!active)
     }
 
-    const style = {
-        backgroundColor: 'grey',
-        padding: '0.6em',
-        opacity: '0.7',
-        borderRadius: '0.5em'
-    }
-
-    const controllerInterface = <Html className={'geo-container__plane'} style={style} position={ [-4, -3, -5] } rotationY={0.2}>
+    /**
+     * @description Geometry parameters are manipulated here.
+     * @returns JSX for controllerInterface.
+     */
+    const controllerInterface = <Html className={'geo-container__plane'} position={ [-4, -3, -5] } rotationY={0.2}>
                                     <div >
                                         <form>
                                             <header>
-                                                <button style={{marginBottom: '1em'}} class={'button__visible'} onClick={handleToggle}>x</button>
+                                                <button style={{marginBottom: '1em'}} className={'button__visible'} onClick={handleToggle}>x</button>
                                                 <div>
-                                                    <label class={'hudlabel'}>{props.name}</label>
+                                                    <label className={'hudlabel'}>{props.name}</label>
                                                 </div>
                                             <br/>
                                             </header>
 
                                             <section>
                                                 <div>
-                                                    <label htmlfor='color'>Farbe</label>
+                                                    <label >Farbe</label>
                                                     <br/>
                                                     <input type='color' name='color' value={cI.color} onChange={handleChange}/>
                                                     <br/>
                                                 </div>
                                                 <div>                                           
-                                                    <label htmlfor='wireframe'>Wireframe On</label>
+                                                    <label >Wireframe On</label>
                                                     <input type='checkbox' onChange={handleWireframe}/>
                                                 </div>
                                                 <div>
-                                                    <label htmlfor='wireframe'>Reacts</label>
+                                                    <label >Reacts</label>
                                                     <input type='checkbox' onChange={handleWobble}/>
                                                 </div>
                                             </section>
@@ -154,34 +171,33 @@ export default function Plane(props) {
                                 </Html>
 
 
-    return(
+    return (
         <React.Fragment>
 
-        {active ? controllerInterface : null}
+            {active ? controllerInterface : null}
 
-        <mesh
-            position={[cI.posX, cI.posY, cI.posZ]}
-            ref={mesh}
-            scale={cI.size* 0.001}
-            onClick={handleToggle}
-            rotation={[cI.rotX/100, cI.rotY/100, cI.rotZ/100]}
-            >
-            
-            <planeGeometry 
-                args={[1000, 1000, cI.heightSegments, cI.widthSegments]} 
-                />
-            <MeshWobbleMaterial 
-                attact='material'
-                color={cI.color}
-                side={THREE.DoubleSide}
-                factor={wobble ? (cI.factor/10) + amp/180 : cI.factor/100}
-                speed={1}
-                refractionRatio={3}
-                roughness={0.2}
-                wireframe={wireframe}
-                />
+            <mesh
+                position={[cI.posX, cI.posY, cI.posZ]}
+                ref={mesh}
+                scale={cI.size* 0.001}
+                onClick={handleToggle}
+                rotation={[cI.rotX/100, cI.rotY/100, cI.rotZ/100]}
+                >
+                <planeGeometry 
+                    args={[1000, 1000, cI.heightSegments, cI.widthSegments]} 
+                    />
+                <MeshWobbleMaterial 
+                    attact='material'
+                    color={cI.color}
+                    side={THREE.DoubleSide}
+                    factor={wobble ? (cI.factor/10) + amp/180 : cI.factor/100}
+                    speed={1}
+                    refractionRatio={3}
+                    roughness={0.2}
+                    wireframe={wireframe}
+                    />
+            </mesh>
 
-          </mesh>
           </React.Fragment >
 
     )

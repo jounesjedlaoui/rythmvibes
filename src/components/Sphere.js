@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import { useStore } from '../state'
 import * as THREE from 'three'
 import { MeshWobbleMaterial } from '@react-three/drei'
-
 import { Html } from '@react-three/drei/web/Html.cjs'
 
 /**
@@ -44,13 +43,21 @@ export default function Sphere(props) {
         rotZ: props.rotZ
     })
 
-    //toggle activeRotation 
+    /**
+     * @description toggles active rotation on/off
+     * @param {event} event 
+     * @returns void
+     */
     const handleActiveRotation = ( event ) => {
         event.preventDefault();
         toggleActiveRotation(!activeRotation)
     }
 
-    //update values in controllerInput
+    /**
+     * @description update values in controllerInput
+     * @param {event} event
+     * @returns void
+     */
     const handleChange = (event) => {
         const { value, name } = event.target;
         let newCI = {...cI}
@@ -58,9 +65,12 @@ export default function Sphere(props) {
         setCI(newCI)
     }
 
-    //update mousePosition in local state to position controllerInterface
+    /**
+     * @description update mousePosition in local state to position controllerInterface
+     * @param {event} event 
+     * @returns void
+     */
     const getMouseWorld = ( event ) => {
-        console.log(event.point)
         var m = event.point;
         if( m === undefined ) {
             m = new THREE.Vector3( 0, 0, -3 )
@@ -71,7 +81,11 @@ export default function Sphere(props) {
         setMousePos( m )
     }
 
-    //show controllerInterface and set mouse position
+    /**
+     * @description show controllerInterface and set mouse position
+     * @param {event} event 
+     * @returns void
+     */
     const handleToggle = ( event ) => {
         if(event.target.tagName !== undefined)
             if(event.target.tagName.toLowerCase() === 'button') 
@@ -80,27 +94,24 @@ export default function Sphere(props) {
         toggleActive(!active)
     }
 
-    const style = {
-        backgroundColor: 'grey',
-        padding: '0.6em',
-        opacity: '0.7',
-        borderRadius: '0.5em'
-        
-    }
-
+    
+    /**
+     * @description Geometry parameters are manipulated here.
+     * @returns JSX for controllerInterface.
+     */
     const controllerInterface = <Html className={'geo-container'} position={ [mousePos.x, mousePos.y, mousePos.z] } rotationY={0.2}>
-                                    <div class={'hud-element'} style={style}>
+                                    <div className={'hud-element'}>
                                         <form>
                                             <header>
-                                                <button style={{marginBottom: '1em'}} class={'button__visible'} onClick={handleToggle}>x</button>
+                                                <button style={{marginBottom: '1em'}} className={'button__visible'} onClick={handleToggle}>x</button>
                                                 <div>
-                                                    <label class={'hudlabel'}>{props.name}</label>
+                                                    <label className={'hudlabel'}>{props.name}</label>
                                                 </div>
                                             </header>
                                             <br/>
 
                                             <section>
-                                            <label htmlfor='color'>Farbe</label>
+                                            <label >Farbe</label>
                                                 <br/>
                                                 <input type='color' name='color' value={cI.color} onChange={handleChange}/>
                                             <br/>
@@ -109,36 +120,35 @@ export default function Sphere(props) {
                                             <section >
                                                 <label>Position</label>
                                                 <br/>
-                                                <label htmlfor='X'>X</label>
+                                                <label >X</label>
                                                 <input type='range' min={-20} max={20} name='posX' value={cI.posX} onChange={handleChange}/>
-                                                <label htmlfor='Y'>Y</label>
+                                                <label >Y</label>
                                                 <input type='range' min={-20} max={10} name='posY' value={cI.posY} onChange={handleChange}/>
-                                                <label htmlfor='Z'>Z</label>
+                                                <label >Z</label>
                                                 <input type='range' min={-40} max={10} name='posZ' value={cI.posZ} onChange={handleChange}/>
 
                                                 <br/>
                                             </section>
 
                                             <section>
-                                                <label htmlfor='size'>Size</label>
+                                                <label >Size</label>
                                                 <input type='range' name='size' min={0} max={50} value={cI.size} onChange={handleChange}/>
 
-                                                <label htmlfor='size'>Sensitivity</label>
+                                                <label >Sensitivity</label>
                                                 <input type='range' min={0} max={10} name='sensitivity' value={cI.sensitivity} onChange={handleChange}/>
 
-                                                <label htmlfor='widthSegments'>widthSegments</label>
+                                                <label >widthSegments</label>
                                                 <input type='range' min={1} max={20} name='widthSegments' value={cI.widthSegments} onChange={handleChange}/> 
 
                                                 <br/>
                                             </section>
 
                                             <section>
-
-                                            <label htmlfor='rotX'>Rotation X</label>
+                                                <label >Rotation X</label>
                                                 <input type='range' min={-100} max={100} name='rotX' value={cI.rotX} onChange={handleChange}/>
-                                                <label htmlfor='rotY'>Rotation Y</label>
+                                                <label >Rotation Y</label>
                                                 <input type='range' min={-100} max={100} name='rotY' value={cI.rotY} onChange={handleChange}/>
-                                                <label htmlfor='rotZ'>Rotation Z</label>
+                                                <label >Rotation Z</label>
                                                 <input type='range' min={-100} max={100} name='rotZ' value={cI.rotZ} onChange={handleChange}/>
                                                 <button onClick={handleActiveRotation}>Toggle active rotation</button>
                                             </section>
@@ -146,7 +156,9 @@ export default function Sphere(props) {
                                     </div>
                                 </Html>
 
-    //apply rotation on every frame
+    /**
+     * @description Apply rotation on every frame.
+     */
     useFrame(() => {
         if(activeRotation) {
             var ampRot = amp/50;
@@ -158,32 +170,31 @@ export default function Sphere(props) {
 
     
 
-    return(
+    return (
         <React.Fragment>
 
-        {active ? controllerInterface : null}
+            {active ? controllerInterface : null}
 
-        <mesh
-            position={[cI.posX, cI.posY, cI.posZ]}
-            ref={mesh}
-            scale={cI.sensitivity === 0 ? cI.size/10*10 : cI.size/10+amp/40}
-            onClick={handleToggle}
-            rotation={[cI.rotX, cI.rotY, cI.rotZ]}
-            >
-            
-            <sphereGeometry args={[1, cI.heightSegments+amp*20, cI.widthSegments*(amp/35)]} />
-            
-            <MeshWobbleMaterial 
-                attact='material'
-                color={cI.color}
-                side={THREE.DoubleSide}
-                factor={1*(amp)*(cI.sensitivity/10)}
-                speed={0.2*(0.01/amp)}
-                refractionRatio={3}
-                roughness={0.2}
-                wireframe={false}
-                />
-          </mesh>
+            <mesh
+                position={[cI.posX, cI.posY, cI.posZ]}
+                ref={mesh}
+                scale={cI.sensitivity === 0 ? cI.size/10*10 : cI.size/10+amp/40}
+                onClick={handleToggle}
+                rotation={[cI.rotX, cI.rotY, cI.rotZ]}
+                >
+                <sphereGeometry args={[1, cI.heightSegments+amp*20, cI.widthSegments*(amp/35)]} />
+                <MeshWobbleMaterial 
+                    attact='material'
+                    color={cI.color}
+                    side={THREE.DoubleSide}
+                    factor={1*(amp)*(cI.sensitivity/10)}
+                    speed={0.2*(0.01/amp)}
+                    refractionRatio={3}
+                    roughness={0.2}
+                    wireframe={false}
+                    />
+            </mesh>
+
           </React.Fragment >
 
     )

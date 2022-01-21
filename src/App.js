@@ -10,7 +10,7 @@ import GeoContainer from './components/GeoContainer';
 class App extends React.Component {
   render() {
     return (
-      <div style={{height: '1000px', margin: '-200px', height: '2000em', backgroundColor:'black'}} >
+      <div style={{margin: '-200px', backgroundColor:'black'}} >
         <Canvas   pixelRatio={window.devicePixelRatio}
                   invalidateFrameloop={false}
                   style={{ position: 'absolute', left: '0', top: '0', width: '100%', height: '100%' }}>

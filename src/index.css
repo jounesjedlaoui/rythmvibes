@@ -6,7 +6,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
-  color: white
+  color: white;
+  background-color: black;
 }
 
 code {
@@ -31,14 +32,6 @@ h4 {
   border: none;
 }
 
-.hud-element {
-  overflow-x: scroll;
-  flex-direction: column;
-  display: flex;
-  height: 40%;
-  width: 100%
-}
-
 section {
   padding-top: 0.5em;
   padding-bottom: 0.5em;
@@ -48,14 +41,28 @@ section {
   border-bottom: none;
 }
 
-.hudlabel {
-  font-size: larger;
-  font-weight: 500;
-}
-
 button {
   text-decoration: none;
   opacity: 0.8
+}
+
+/*Classes*/
+
+.hud-element {
+  overflow-x: scroll;
+  flex-direction: column;
+  display: flex;
+  height: 40%;
+  width: 100%;
+  background-color: grey;
+  padding: 0.6em;
+  opacity: 0.7;
+  border-radius: 0.5em
+}
+
+.hudlabel {
+  font-size: larger;
+  font-weight: 500;
 }
 
 .button__visible {
@@ -86,8 +93,9 @@ button {
   display: inline-flex;
 }
 
-.geolist button {
-  margin-left: 1em
+.all-geometries {
+  height: 10em;
+  overflow-y: scroll;
 }
 
 .geo-container {
@@ -95,10 +103,19 @@ button {
 }
 
 .geo-container__plane {
-
+  background-color: grey;
+  padding: 0.6em;
+  opacity: 0.7;
+  border-radius: 0.5em;
   width: 29em;
   height: 20em;
   overflow-x: scroll;
+}
+
+/* Subselectors*/
+
+.geolist button {
+  margin-left: 1em
 }
 
 .geo-container__plane button {

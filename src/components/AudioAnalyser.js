@@ -5,11 +5,16 @@ import { useStore } from '../state';
 export default function AudioAnalyser() {
   const [updateMicAmp] = useStore(state => [ state.updateMicAmp ])
 
-  //case privacy doesnt allow access
+  /**
+   * @description case privacy doesnt allow access
+   */
   if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
-    console.log("enumerateDevices() not supported.");   
+    console.error("enumerateDevices() not supported.");   
   }
   
+  /**
+   * @description Works analogous to onComponentDidMount. Sets up stream for continuous use.
+   */
   useEffect(() => {
     //get Permission to read System inputs and outputs and add eventlistener to process input stream
     navigator.mediaDevices.getUserMedia({
@@ -43,10 +48,8 @@ export default function AudioAnalyser() {
   }, [])
 
 
-
+  //Empty return so that Component is included  React Render-Loop
   return (
-    <React.Fragment >
-           
-    </React.Fragment>
+    <></>
   )  
 }
