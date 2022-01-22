@@ -19,7 +19,7 @@ const style = {
 export default function GeoContainer() {
     //An array containing all the geometries being rendered on screen
     const [ geometries, updateGeometry ] = useState([
-        <Sphere type={'Sphere'} name={'Sphere1'} position={[0, 0, -4]} color={'#ECB365'} size={10} heightSegments={2} widthSegments={10} rotX={-28} rotY={-12} rotZ={-10}/>,
+        <Sphere type={'Sphere'} name={'Sphere1'} position={[0, 0, -4]} color={'green'} size={10} heightSegments={2} widthSegments={10} rotX={-28} rotY={-12} rotZ={-10}/>,
         <Plane type={'Plane'} name={'Background'} reacts={true} position={[-2.8, -10, -1]} color={"#041C32"} size={100} heightSegments={50} widthSegments={50} rotX={-65} rotY={-1} rotZ={2}/>                              
     ])
     
