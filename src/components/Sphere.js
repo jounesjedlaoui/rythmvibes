@@ -27,7 +27,7 @@ export default function Sphere(props) {
     //Amplitude of microphone input connected to global store
     const [ amp ] = useStore(state => [ state.micAmp ])
     //Mouse Position for positioning of controllerInterface
-    let [ mousePos, setMousePos ] = useState(new THREE.Vector3( 0, 0, -3 ));
+    let [ mousePos, setMousePos ] = useState  (new THREE.Vector3( 0, 0, -3 ));
     //locally stored non-boolean controller variables
     let [ cI, setCI ] = useState({
         size: props.size,
