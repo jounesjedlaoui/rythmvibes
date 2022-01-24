@@ -60,7 +60,7 @@ export default function GeoContainer() {
         //distinguish geometry type and create new geometry
         switch (selectedIndex) {
             case 0:
-                newGeo = <Sphere type={'Sphere'} name={newName} position={[-6.5, 4, -2]} color={'blue'} size={10} heightSegments={2} widthSegments={10} rotX={-28} rotY={-12} rotZ={-10}/>
+                newGeo = <Sphere type={'Sphere'} name={newName} position={[-6.5, 4, -2]} color={'red'} size={10} heightSegments={2} widthSegments={10} rotX={-28} rotY={-12} rotZ={-10}/>
                 
                 geometries.push(newGeo)
                 updateGeometry([...geometries])
