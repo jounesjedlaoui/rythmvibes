@@ -36,7 +36,7 @@ export default function Plane(props) {
         factor: 0.41,
         heightSegments: props.heightSegments,
         widthSegments: props.widthSegments,
-
+        speed: 1,
         posX: props.position[0],
         posY: props.position[1],
         posZ: props.position[2],
@@ -53,6 +53,7 @@ export default function Plane(props) {
         const { value, name } = event.target;
         let newCI = {...cI}
         newCI[name] = value;
+        console.log(newCI);
         setCI(newCI)
     }
 
@@ -141,10 +142,13 @@ export default function Plane(props) {
 
                                                 <div>
                                                     <label htmlfor='size'>Größe</label>
-                                                    <input type='range' name='size' min={0} max={20} value={cI.size} onChange={handleChange}/>
+                                                    <input type='range' name='size' min={0} max={200} value={cI.size} onChange={handleChange}/>
 
                                                     <label htmlfor='factor'>wave factor</label>
                                                     <input type='range' min={0} max={100} name='factor' value={cI.factor} onChange={handleChange}/>
+
+                                                    <label htmlfor='factor'>speed</label>
+                                                    <input type='range' min={0} max={50} name='speed' value={cI.speed} onChange={handleChange}/>
 
                                                     <label htmlfor='heightSegments'>heightSegments</label>
                                                     <input type='range' min={1} max={200} name='heightSegments' value={cI.heightSegments} onChange={handleChange}/>
@@ -191,9 +195,10 @@ export default function Plane(props) {
                     color={cI.color}
                     side={THREE.DoubleSide}
                     factor={wobble ? (cI.factor/10) + amp/180 : cI.factor/100}
-                    speed={1}
+                    speed={cI.speed}
                     refractionRatio={3}
-                    roughness={0.2}
+                    roughness={1}
+                    shininess={1}
                     wireframe={wireframe}
                     />
             </mesh>

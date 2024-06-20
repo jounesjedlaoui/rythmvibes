@@ -3,7 +3,8 @@ import Sphere from './Sphere';
 import Plane from './Plane';
 import { Html } from '@react-three/drei/web/Html.cjs'
 import topfont from './img/topfont.png'
-
+import ThorusKnot
+ from './ThorusKnot';
 const style = {
     backgroundColor: 'grey',
     padding: '0.6em',
@@ -20,7 +21,9 @@ export default function GeoContainer() {
     //An array containing all the geometries being rendered on screen
     const [ geometries, updateGeometry ] = useState([
         <Sphere type={'Sphere'} name={'Sphere1'} position={[0, 0, -4]} color={'red'} size={10} heightSegments={2} widthSegments={10} rotX={-28} rotY={-12} rotZ={-10}/>,
-        <Plane type={'Plane'} name={'Background'} reacts={true} position={[-2.8, -10, -1]} color={"#041C32"} size={100} heightSegments={50} widthSegments={50} rotX={-65} rotY={-1} rotZ={2}/>                              
+        <Plane type={'Plane'} name={'Background'} reacts={true} position={[-2.8, -10, -1]} color={"#041C32"} size={100} heightSegments={50} widthSegments={50} rotX={-65} rotY={-1} rotZ={2}/>,
+        <ThorusKnot name={'Torus'} position={[0,0,-4]} size={10} color={'ff0000'} heightSegments={2} widthSegments={10} rotX={-28} rotY={-12} rotZ={-10}/>
+
     ])
     
     //Fog Control
@@ -173,7 +176,7 @@ export default function GeoContainer() {
     return (
         <React.Fragment>
 
-            <Html   width={12} position={[-3.5, 6, -3]}>
+            <Html   width={12} position={[-5.5, 6, -3]}>
                 { visible ? Visible : inVisible } 
             </Html>
 

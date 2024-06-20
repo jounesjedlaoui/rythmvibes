@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@react-three/drei": "^7.27.4",
+    "@react-three/drei": "^7.27.5",
     "@react-three/fiber": "^7.0.21",
     "@reduxjs/toolkit": "^1.7.0",
     "@testing-library/jest-dom": "^5.15.1",
